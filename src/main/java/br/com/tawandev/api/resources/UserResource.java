@@ -1,6 +1,5 @@
 package br.com.tawandev.api.resources;
 
-import br.com.tawandev.api.domain.User;
 import br.com.tawandev.api.domain.dto.UserDTO;
 import br.com.tawandev.api.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -25,7 +24,7 @@ public class UserResource {
     private UserService service;
 
     @GetMapping(value = ID)
-    public ResponseEntity<UserDTO> findBuId(@PathVariable Integer id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDTO.class));
     }
 
