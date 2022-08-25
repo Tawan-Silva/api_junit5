@@ -1,6 +1,6 @@
 package br.com.tawandev.api.resources.exceptions;
 
-import br.com.tawandev.api.services.exceptions.DataIntegratyViolationException;
+import br.com.tawandev.api.services.exceptions.DataIntegrityViolationException;
 import br.com.tawandev.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class ResourceExceptionHandlerTest {
     void dataIntegrityViolationException() {
         ResponseEntity<StandardError> response = exceptionHandler
                 .dataIntegrityViolationException(
-                        new DataIntegratyViolationException(E_MAIL_JA_CADASTRADO),
+                        new DataIntegrityViolationException(E_MAIL_JA_CADASTRADO),
                         new MockHttpServletRequest());
 
         assertNotNull(response);
