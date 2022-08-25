@@ -3,7 +3,7 @@ package br.com.tawandev.api.services.impl;
 import br.com.tawandev.api.domain.User;
 import br.com.tawandev.api.domain.dto.UserDTO;
 import br.com.tawandev.api.repositories.UserRepository;
-import br.com.tawandev.api.services.exceptions.DataIntegratyViolationException;
+import br.com.tawandev.api.services.exceptions.DataIntegrityViolationException;
 import br.com.tawandev.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,8 +112,9 @@ class UserServiceImplTest {
         try {
             optionalUser.get().setId(2);
             service.create(userDTO);
+            throw new Exception();
         } catch (Exception e) {
-            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, e.getMessage());
         }
 
@@ -147,7 +148,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             service.create(userDTO);
         } catch (Exception e) {
-            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, e.getMessage());
         }
     }
