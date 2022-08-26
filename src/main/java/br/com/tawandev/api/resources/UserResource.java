@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class UserResource {
 
     public static final String ID = "/{id}";
+
     @Autowired
     private ModelMapper mapper;
 
@@ -78,6 +79,7 @@ public class UserResource {
         return ResponseEntity.ok().body(mapper.map(service.update(obj), UserDTO.class));
     }
 
+    @CrossOrigin(origins = { "http://localhost:8080", "https://tawansilva.com.br" })
     @ApiOperation(value = "Deleta um Usuário pelo Id.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Usuário deletado com sucesso."),
