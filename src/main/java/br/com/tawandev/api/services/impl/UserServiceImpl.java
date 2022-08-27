@@ -8,9 +8,10 @@ import br.com.tawandev.api.services.exceptions.DataIntegrityViolationException;
 import br.com.tawandev.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,8 +29,9 @@ public class UserServiceImpl implements UserService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado."));
     }
 
-    public List<User> findAll() {
-        return repository.findAll();
+    @Override
+    public Page<UserDTO> findAll(Pageable pageable) {
+       return  repository.findAll(pageable).map(user -> mapper.map(user, UserDTO.class));
     }
 
     @Override
