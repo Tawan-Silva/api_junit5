@@ -8,6 +8,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,10 +51,18 @@ public class UserResource {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso."),
     })
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll() {
+    public ResponseEntity<Page<UserDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "limit", defaultValue = "12") Integer limit,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+
+        var sortDirection = "desc".equalsIgnoreCase(direction)
+                ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "name"));
+
         return ResponseEntity.ok()
-                .body(service.findAll()
-                        .stream().map(x -> mapper.map(x, UserDTO.class)).collect(Collectors.toList()));
+                .body(service.findAll(pageable));
     }
 
     @ApiOperation(value = "Salva um Usuário.")
